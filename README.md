@@ -60,7 +60,7 @@ objects that are outside the world. The world also save the ticks per second. Th
 the correct movement in relation to object velocity and gravity.
 
 ```js
-import {World} from '@elzekool/laser-game-lib/game/World';
+import {World} from '@elzekool/laser-game-lib/game';
 
 const world = new World({
   bounds: {
@@ -79,7 +79,7 @@ this world.
 You can use the `Renderer` to render all objects in the `World` on a `Scene`. An example:
 
 ```js
-import {Renderer} from '@elzekool/laser-game-lib/game/Renderer';
+import {Renderer} from '@elzekool/laser-game-lib/game';
 
 //... create a world, scene, etc.
 
@@ -166,7 +166,7 @@ When creating the `ObjectMover` you can provide a `gravity` vector. This vector 
 An example how to use it:
 
 ```js
-import {ObjectMover} from '@elzekool/game/movement/ObjectMover';
+import {ObjectMover} from '@elzekool/game/movement';
 
 class ObjectToMove {
   position = {x: 0, y: 1.0};
