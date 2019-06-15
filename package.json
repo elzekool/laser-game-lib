@@ -1,0 +1,21 @@
+{
+  "name": "@elzekool/laser-game-lib",
+  "version": "1.0.0",
+  "description": "Game utility library for @laser-dac library suite",
+  "repository": "https://github.com/elzekool/laser-game-lib",
+  "author": "Elze Kool",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@laser-dac/core": "^0.4.1",
+    "@laser-dac/draw": "^0.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.8",
+    "prettier": "^1.18.2",
+    "typescript": "^3.5.1"
+  },
+  "scripts": {
+    "build": "rm -rf dist/* && tsc --project ./tsconfig.json && cp package.json dist/"
+  }
+}
