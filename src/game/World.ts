@@ -1,36 +1,43 @@
-import {DrawableObject} from "./drawing/DrawableObject";
-import {Bounds} from "./Bounds";
+import {DrawableObject} from './drawing/DrawableObject';
+import {Bounds} from './Bounds';
 
 export interface WorldOptions {
-    bounds : Bounds,
+  bounds: Bounds;
+  ticksPerSecond: number;
 }
 
 export class World {
-    private readonly bounds : Bounds;
-    private readonly objects : Set<DrawableObject>;
+  private readonly bounds: Bounds;
+  private readonly ticksPerSecond: number;
+  private readonly objects: Set<DrawableObject>;
 
-    constructor(options: WorldOptions) {
-        this.bounds = options.bounds;
-        this.objects = new Set<DrawableObject>();
-    }
+  constructor(options: WorldOptions) {
+    this.bounds = options.bounds;
+    this.ticksPerSecond = options.ticksPerSecond;
+    this.objects = new Set<DrawableObject>();
+  }
 
-    getBounds() : Bounds {
-        return this.bounds;
-    }
+  getUpdateInterval(): number {
+    return this.ticksPerSecond;
+  }
 
-    getObjects() : Set<DrawableObject> {
-        return this.objects;
-    }
+  getBounds(): Bounds {
+    return this.bounds;
+  }
 
-    deleteObject(object : DrawableObject) {
-        this.objects.delete(object);
-    }
+  getObjects(): Set<DrawableObject> {
+    return this.objects;
+  }
 
-    addObject(object : DrawableObject) {
-        this.objects.add(object);
-    }
+  deleteObject(object: DrawableObject) {
+    this.objects.delete(object);
+  }
 
-    clearObjects() {
-        this.objects.clear();
-    }
+  addObject(object: DrawableObject) {
+    this.objects.add(object);
+  }
+
+  clearObjects() {
+    this.objects.clear();
+  }
 }

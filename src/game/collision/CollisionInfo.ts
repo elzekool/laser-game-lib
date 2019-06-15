@@ -1,5 +1,5 @@
-import {CollidableObject} from "./CollidableObject";
+import {CollidableObject} from './CollidableObject';
 
 export interface CollisionInfo {
-    objects: [ CollidableObject, CollidableObject ]
+  objects: [CollidableObject, CollidableObject];
 }

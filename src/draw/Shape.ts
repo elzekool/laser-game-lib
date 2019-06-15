@@ -1,5 +1,5 @@
-import {Point} from "./Point";
+import {Point} from './Point';
 
 export declare class Shape {
-    draw(resolution: number): Point[];
+  draw(resolution: number): Point[];
 }
