@@ -106,10 +106,143 @@ library doesn't do any encode/decoding of the messages.
 
 ```js
 class ExampleGame {
-  constructor(world) {}
+  update() {
+    // Update game state
+  }
+
+  render(renderer) {
+    renderer.render();
+  }
 }
+```
+
+### Game runner
+
+To easely use all the elements in this library you can use the `GameRunner`. This will create a `World`, `Renderer`,
+`Game` and will initialize the `Device`s, web server and will start all updates.
+
+```js
+import {Simulator} from "@laser-dac/simulator";
+import {GameRunner} from '@elzekool/laser-game-lib';
+import * as path from "path";
+
+const gameRunner = new GameRunner({
+    // Provide the root path of your web frontend
+    webserverRootPath: path.join(__dirname, '/public'),
+
+    // Provide the bounds of your world
+    worldBounds: {
+        topLeft: { x: 0, 0 },
+        bottomRight: { x: 1.0, y: 1.0 }
+    },
+
+    // Provide the devices you want to use for rendering
+    devices: [
+        new Simulator()
+    ],
+
+    // Create a function that returns an instance of your game.
+    gameFactory: (world => new ExampleGame(world))
+});
+
+// Actually start your game
+gameRunner.start();
+
 ```
 
 ## Utilities
 
-TODO: Add documentation ;-)
+### Object Movement
+
+To automate the movement of objects the `ObjectMover` can be used. It automatically moves all objects in the
+`World` that adhere to the `MovingObject` interface (having `getPosition(): Vector`, `setPosition(position: Vector)`,
+`getVelocity(): Vector`, `setVelocity(velocity: Vector)` and `getGravityFactor(): number` functions).
+
+`velocity` is described as a direction vector. The value of this vector is the moment in 1 second.
+
+When creating the `ObjectMover` you can provide a `gravity` vector. This vector multiplied by the object
+`gravityFactor` is added on each iteration. Note that this is not a full physics engine, there is no bounce, etc.
+
+An example how to use it:
+
+```js
+import {ObjectMover} from '@elzekool/game/movement/ObjectMover';
+
+class ObjectToMove {
+  position = {x: 0, y: 1.0};
+  velocity = {x: 0.1, y: -0.2};
+
+  getPosition() {
+    return this.position;
+  }
+
+  setPosition(position) {
+    this.position = position;
+  }
+
+  getVelocity() {
+    return this.velocity;
+  }
+
+  setVelocity(velocity) {
+    this.velocity = velocity;
+  }
+
+  getGravityFactor() {
+    return 0.1;
+  }
+
+  draw() {
+    return [
+      //... shapes
+    ];
+  }
+}
+
+const objectMover = new ObjectMover({
+  world,
+  gravity: {x: 0, y: 0.1},
+});
+
+world.addObject(new ObjectToMove());
+
+objectMover.moveObjects();
+```
+
+### Out Of Bounds Detection
+
+When objects move they can get out-of-bounds. In that case you don't want to keep rendering them. To ease the
+automatic removal of objects you can use the `OutOfBoundDetector`.
+
+**TODO: Complete**
+
+### Collision detection
+
+**TODO: Complete**
+
+### Drawing
+
+The library contains a few utilities for drawing.
+
+#### Resolution Scaler
+
+`@laser-dac` shapes use the resolution of the `Scene` to determine the number of points to render. This number
+represents the number of points rendered in a straight line from [0,0] to [1,0]. You can use the resolution scale
+to change this resolution for a specific shape. An example how to use it:
+
+```js
+import {ResolutionScaler} from '@elzekool/laser-game-lib/draw/ResolutionScaler';
+import {Line} from '@laser-dac/draw';
+
+new ResolutionScaler(
+  // Shape to render with modified resolution
+  new Line({
+    from: [ 0, 0 ],
+    to: [ 1, 0 ]
+    color: [0, 1, 0],
+  }),
+
+  // Resolution factor (0.5 will half the resolution)
+  0.5
+)
+```
