@@ -12,6 +12,11 @@ export interface StartTweenOptions {
   onTweenEnd?: (object: TweenableObject) => void;
 }
 
+export interface StopTweenOptions {
+  object: TweenableObject;
+  fireCallbacks?: boolean;
+}
+
 interface ActiveTween {
   current: number;
   stepSize: number;
@@ -41,6 +46,21 @@ export class ObjectTweener {
       repeat: options.repeat || false,
       onTweenEnd: options.onTweenEnd,
     });
+  }
+
+  endTween(options: StopTweenOptions) {
+    const object = options.object;
+    const fireCallbacks = options.fireCallbacks || true;
+
+    const tween = this.activeTweens.get(object);
+    if (typeof tween === 'undefined') {
+      return;
+    }
+
+    this.activeTweens.delete(object);
+    if (fireCallbacks && typeof tween.onTweenEnd !== 'undefined') {
+      tween.onTweenEnd(object);
+    }
   }
 
   updateTweens() {
