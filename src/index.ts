@@ -28,6 +28,7 @@ export interface GameRunnerOptions {
   renderPointsPerSecond?: number;
   gameFactory: (world: World) => Game;
   sceneFactory?: (resolution?: number) => Scene;
+  rendererFactory?: (world: World, scene: Scene) => Renderer;
 }
 
 export class GameRunner {
@@ -41,6 +42,7 @@ export class GameRunner {
   private readonly renderPointsPerSecond?: number;
   private readonly gameFactory: (world: World) => Game;
   private readonly sceneFactory?: (resolution?: number) => Scene;
+  private readonly rendererFactory?: (world: World, scene: Scene) => Renderer;
 
   constructor(options: GameRunnerOptions) {
     this.webserverRootPath = options.webserverRootPath;
@@ -54,6 +56,7 @@ export class GameRunner {
     this.renderPointsPerSecond = options.renderPointsPerSecond;
     this.gameFactory = options.gameFactory;
     this.sceneFactory = options.sceneFactory;
+    this.rendererFactory = options.rendererFactory;
   }
 
   start() {
@@ -72,10 +75,13 @@ export class GameRunner {
             resolution: this.resolution,
           });
 
-    const renderer = new Renderer({
-      world,
-      scene,
-    });
+    const renderer =
+      typeof this.rendererFactory !== 'undefined'
+        ? this.rendererFactory(world, scene)
+        : new Renderer({
+            world,
+            scene,
+          });
 
     const game = this.gameFactory(world);
 
