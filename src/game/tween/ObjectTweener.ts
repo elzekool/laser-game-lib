@@ -63,6 +63,10 @@ export class ObjectTweener {
     }
   }
 
+  getTweenedObjects(): TweenableObject[] {
+    return [...this.activeTweens.keys()];
+  }
+
   updateTweens() {
     this.activeTweens.forEach((activeTween, object) => {
       activeTween.current += activeTween.stepSize;

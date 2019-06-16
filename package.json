@@ -1,6 +1,6 @@
 {
   "name": "@elzekool/laser-game-lib",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Game utility library for @laser-dac library suite",
   "repository": "https://github.com/elzekool/laser-game-lib",
   "author": "Elze Kool",
