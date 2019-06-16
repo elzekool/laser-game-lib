@@ -1,4 +1,5 @@
 import {Vector} from '../game';
+import {PolarVector} from '../game/PolarVector';
 
 export class VectorMath {
   static add(a: Vector, b: Vector): Vector {
@@ -40,6 +41,20 @@ export class VectorMath {
     return {
       x: vector.x * Math.cos(rad) - vector.y * Math.sin(rad),
       y: vector.x * Math.sin(rad) + vector.y * Math.cos(rad),
+    };
+  }
+
+  static fromPolar(vector: PolarVector): Vector {
+    return {
+      x: vector.size * Math.cos(vector.angle),
+      y: vector.size * Math.sin(vector.angle),
+    };
+  }
+
+  static toPolar(vector: Vector): PolarVector {
+    return {
+      size: Math.hypot(vector.x, vector.y),
+      angle: Math.atan2(vector.y, vector.x),
     };
   }
 

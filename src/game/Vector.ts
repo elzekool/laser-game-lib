@@ -1,5 +1,5 @@
 /**
- * 2D Plane Vector
+ * 2D cartesian vector
  */
 export interface Vector {
   x: number;
