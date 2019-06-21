@@ -50,7 +50,10 @@ export class ObjectTweener {
 
   endTween(options: StopTweenOptions) {
     const object = options.object;
-    const fireCallbacks = options.fireCallbacks || true;
+    const fireCallbacks =
+      typeof options.fireCallbacks !== 'undefined'
+        ? options.fireCallbacks
+        : true;
 
     const tween = this.activeTweens.get(object);
     if (typeof tween === 'undefined') {
